@@ -5,18 +5,21 @@ using Xamarin.Forms;
 
 namespace SredniaOcen
 {
-    internal class FrameWaga
+    internal class FrameWaga : IComparable<FrameWaga>
     {
         public List<Button> btnOceny = new List<Button>();
         FlexLayout MiejsceNaOceny;
         Entry entryNowaOcena;
+        Button btnDodajNowaOcene;
 
         public double Waga;
 
         Srednia srednia;
-        public FrameWaga(Srednia srednia,Color bg, double waga)
+
+        public Frame frame;
+        public FrameWaga(Srednia srednia, Color bg, double waga)
         {
-            Waga= waga;
+            Waga = waga;
             StackLayout c = new StackLayout();
             #region Grid 1
             Grid g1 = new Grid();
@@ -55,12 +58,13 @@ namespace SredniaOcen
             lblOceny.FontSize = 19;
 
             entryNowaOcena = new Entry();
+            entryNowaOcena.Completed += EntryNowaOcena_Completed;
             //entryNowaOcena.FontSize = 19;
             entryNowaOcena.Keyboard = Keyboard.Numeric;
             entryNowaOcena.Placeholder = "Ocena";
             Grid.SetColumn(entryNowaOcena, 1);
 
-            Button btnDodajNowaOcene = new Button();
+            btnDodajNowaOcene = new Button();
             btnDodajNowaOcene.Text = "Dodaj";
             btnDodajNowaOcene.Clicked += BtnDodajNowaOcene_Clicked;
             Grid.SetColumn(btnDodajNowaOcene, 2);
@@ -88,16 +92,23 @@ namespace SredniaOcen
             f.BackgroundColor = bg;
             f.WidthRequest = 250;
             f.HeightRequest = 250;
-            f.CornerRadius=20;
+            f.CornerRadius = 20;
             f.Margin = new Thickness(5);
-            MainPage.main.Children.Add(f);
+            //MainPage.main.Children.Add(f);
+            frame = f;
             this.srednia = srednia;
+        }
+
+
+
+        private void EntryNowaOcena_Completed(object sender, EventArgs e)
+        {
+            BtnDodajNowaOcene_Clicked(btnDodajNowaOcene, e);
         }
 
         private void BtnDodajNowaOcene_Clicked(object sender, EventArgs e)
         {
-            double d;
-            if (double.TryParse(entryNowaOcena.Text, out d))
+            if (entryNowaOcena.Text != null && double.TryParse(entryNowaOcena.Text.Replace(',', '.'), out double d))
             {
                 entryNowaOcena.Text = "";
                 Button b = GetBtnOcena(d);
@@ -124,6 +135,11 @@ namespace SredniaOcen
             btnOceny.Remove((Button)sender);
             MiejsceNaOceny.Children.Remove((Button)sender);
             srednia.UpdateSrednia();
+        }
+
+        public int CompareTo(FrameWaga other)
+        {
+            return Waga.CompareTo(other.Waga);
         }
     }
 }

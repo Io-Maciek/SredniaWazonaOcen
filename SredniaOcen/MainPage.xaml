@@ -5,7 +5,7 @@
 
     <StackLayout>
         <ScrollView>
-            <FlexLayout x:Name="mainLayout"  Wrap="Wrap" JustifyContent="SpaceBetween">
+            <FlexLayout x:Name="mainLayout"  Wrap="Wrap" JustifyContent="SpaceEvenly">
                 <!--<Frame x:Name="frameWagaModel" IsVisible="false" BackgroundColor="#6420AA" WidthRequest="250" HeightRequest="250" CornerRadius="20" Margin="5">
                     <StackLayout>
                         <Grid Margin="0,0,0,20" ColumnDefinitions="*,Auto">
@@ -28,7 +28,7 @@
         </ScrollView>
         
         
-        <Frame Margin="5" CornerRadius="13" VerticalOptions="EndAndExpand" BackgroundColor="#1E88E5" >
+        <Frame Margin="0,-6,0,0" CornerRadius="0" VerticalOptions="EndAndExpand" BackgroundColor="#1E88E5" >
             <FlexLayout JustifyContent="Center">
                 <Label Margin="0,0,10,0" FontSize="21" Text="Średnia ocen: "></Label>
                 <Label x:Name="lblSrednia" Margin="10,0,0,0" FontSize="21" Text="0"></Label>
