@@ -45,9 +45,9 @@ namespace SredniaOcen
             Grid g2 = new Grid();
 
             ColumnDefinitionCollection three = new ColumnDefinitionCollection();
-            two.Add(new ColumnDefinition() { Width = GridLength.Star });
-            two.Add(new ColumnDefinition() { Width = GridLength.Auto });
-            two.Add(new ColumnDefinition() { Width = GridLength.Auto });
+            three.Add(new ColumnDefinition() { Width = GridLength.Star });
+            three.Add(new ColumnDefinition() { Width = GridLength.Auto });
+            three.Add(new ColumnDefinition() { Width = GridLength.Auto });
             g2.ColumnDefinitions = three;
 
             Label lblOceny = new Label();
