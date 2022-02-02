@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="SredniaOcen.MainPage">
+
+    <StackLayout>
+        <ScrollView>
+            <FlexLayout x:Name="mainLayout"  Wrap="Wrap" JustifyContent="SpaceBetween">
+                <Frame x:Name="frameWagaModel" IsVisible="true" BackgroundColor="#6420AA" WidthRequest="250" HeightRequest="250" CornerRadius="20" Margin="5">
+                    <StackLayout>
+                        <Grid Margin="0,0,0,20" ColumnDefinitions="*,Auto">
+                            <Label FontSize="19" Text="Waga"></Label>
+                            <Label FontSize="19" x:Name="lblWaga" Text="1" Grid.Column="1"></Label>
+                        </Grid>
+                        <Grid ColumnDefinitions="*,Auto,Auto">
+                            <Label Text="Oceny" FontSize="19"></Label>
+                            <Entry x:Name="entryNowaOcena" Keyboard="Numeric" Placeholder="Ocena" Grid.Column="1"></Entry>
+                            <Button x:Name="btnDodajNowaOcena" Grid.Column="2" Text="Dodaj"></Button>
+                        </Grid>
+
+                        <ScrollView HeightRequest="121">
+                            <FlexLayout x:Name="MiejsceNaOceny" Wrap="Wrap">
+                            </FlexLayout>
+                        </ScrollView>
+                    </StackLayout>
+                </Frame>
+
+
+            </FlexLayout>
+        </ScrollView>
+        <Frame Margin="5" CornerRadius="13" VerticalOptions="EndAndExpand" BackgroundColor="#1E88E5" >
+            <FlexLayout JustifyContent="Center">
+                <Label Margin="0,0,10,0" FontSize="21" Text="Średnia ocen: "></Label>
+                <Label x:Name="lblSrednia" Margin="10,0,0,0" FontSize="21" Text="0"></Label>
+            </FlexLayout>
+
+        </Frame>
+    </StackLayout>
+</ContentPage>
