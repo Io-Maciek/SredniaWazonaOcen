@@ -6,80 +6,46 @@ using Xamarin.Forms;
 
 namespace SredniaOcen
 {
-    internal class Srednia
+    public class Srednia
     {
 
-        Label lblWaga;
-        Entry entryNowaOcena;
-        Button btnNowaOcena;
-        FlexLayout LayoutNaOceny;
-
-        //<Button x:Name="btnOcena" Margin="5,2,5,2" WidthRequest="50" HeightRequest="0" Text="5"></Button>
-
-
-        List<Button> btnOceny = new List<Button>();
+        List<FrameWaga> frameWagi = new List<FrameWaga>();
 
         Label lblSrednia;
 
-        public Srednia(Frame wagaFrame, double wartoscWagi, Label srednia)
+        public Srednia(Label srednia)
         {
-            lblWaga=(Label)wagaFrame.Content.FindByName("lblWaga");
-            lblWaga.Text=wartoscWagi.ToString();
-            entryNowaOcena= (Entry)wagaFrame.Content.FindByName("entryNowaOcena");
-            btnNowaOcena= (Button)wagaFrame.Content.FindByName("btnDodajNowaOcena");
-
-            btnNowaOcena.Clicked += BtnNowaOcena_Clicked;
-
-            LayoutNaOceny = (FlexLayout)wagaFrame.Content.FindByName("MiejsceNaOceny");
 
             lblSrednia = srednia;
         }
 
-        private void BtnNowaOcena_Clicked(object sender, EventArgs e)
+        public void AddNewWaga(Color bg, double waga)
         {
-            double d;
-            if(double.TryParse(entryNowaOcena.Text,out d))
-            {
-                entryNowaOcena.Text = "";
-                Button b = GetBtnOcena(d);
-                btnOceny.Add(b);
-                LayoutNaOceny.Children.Add(b);
-                UpdateSrednia();
-            }
-            else
-            {
-                entryNowaOcena.Text = "";
-            }
+            frameWagi.Add(new FrameWaga(this, bg, waga));
         }
 
-        private Button GetBtnOcena(double ocena)
-        {
-            Button btnocena = new Button()
-            {
-                Margin = new Thickness(5, 2, 5, 2),
-                WidthRequest = 37,
-                HeightRequest = 37,
-                Text = ocena.ToString()
-            };
-            btnocena.Clicked += Btnocena_Clicked;
-            return btnocena;
-        }
 
-        private void Btnocena_Clicked(object sender, EventArgs e)
-        {
-            btnOceny.Remove((Button)sender);
-            LayoutNaOceny.Children.Remove((Button)sender);
-            UpdateSrednia();
-        }
 
-        void UpdateSrednia()
+        public void UpdateSrednia()
         {
             double suma = 0;
-            foreach (var item in btnOceny)
+            double lacznieWagi = 0;
+            foreach (var item in frameWagi)
             {
-                suma += double.Parse(item.Text);
+
+                    lacznieWagi += item.Waga*item.btnOceny.Count;
+                    for (int i = 0; i < item.btnOceny.Count; i++)
+                    {
+                        suma += double.Parse(item.btnOceny[i].Text) * item.Waga;
+                    }
+                
             }
-            lblSrednia.Text = (suma / btnOceny.Count).ToString();
+            if (lacznieWagi == 0)
+            {
+                lblSrednia.Text = "0";
+
+            }else
+                lblSrednia.Text = (suma / lacznieWagi).ToString("0.##");
         }
     }
 }

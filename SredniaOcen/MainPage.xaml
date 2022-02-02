@@ -6,7 +6,7 @@
     <StackLayout>
         <ScrollView>
             <FlexLayout x:Name="mainLayout"  Wrap="Wrap" JustifyContent="SpaceBetween">
-                <Frame x:Name="frameWagaModel" IsVisible="true" BackgroundColor="#6420AA" WidthRequest="250" HeightRequest="250" CornerRadius="20" Margin="5">
+                <!--<Frame x:Name="frameWagaModel" IsVisible="false" BackgroundColor="#6420AA" WidthRequest="250" HeightRequest="250" CornerRadius="20" Margin="5">
                     <StackLayout>
                         <Grid Margin="0,0,0,20" ColumnDefinitions="*,Auto">
                             <Label FontSize="19" Text="Waga"></Label>
@@ -23,11 +23,11 @@
                             </FlexLayout>
                         </ScrollView>
                     </StackLayout>
-                </Frame>
-
-
+                </Frame>-->
             </FlexLayout>
         </ScrollView>
+        
+        
         <Frame Margin="5" CornerRadius="13" VerticalOptions="EndAndExpand" BackgroundColor="#1E88E5" >
             <FlexLayout JustifyContent="Center">
                 <Label Margin="0,0,10,0" FontSize="21" Text="Średnia ocen: "></Label>
