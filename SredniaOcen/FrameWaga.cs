@@ -17,6 +17,22 @@ namespace SredniaOcen
         Srednia srednia;
 
         public Frame frame;
+
+        readonly static int ButtonOcenaSize;
+
+        static FrameWaga()
+        {
+            if(Device.RuntimePlatform == Device.Android)
+            {
+                ButtonOcenaSize = 45;
+            }
+            else
+            {
+                ButtonOcenaSize = 37;
+            }
+        }
+
+
         public FrameWaga(Srednia srednia, Color bg, double waga)
         {
             Waga = waga;
@@ -27,6 +43,7 @@ namespace SredniaOcen
 
             ColumnDefinitionCollection two = new ColumnDefinitionCollection();
             two.Add(new ColumnDefinition() { Width = GridLength.Star });
+            two.Add(new ColumnDefinition() { Width = GridLength.Auto });
             two.Add(new ColumnDefinition() { Width = GridLength.Auto });
             g1.ColumnDefinitions = two;
 
@@ -42,6 +59,21 @@ namespace SredniaOcen
 
             g1.Children.Add(lblWaga);
             g1.Children.Add(lblWagaWartosc);
+
+            Button btnCloseFrame = new Button();
+            btnCloseFrame.Text = "x";
+            btnCloseFrame.BackgroundColor = Color.Red;
+            btnCloseFrame.FontSize = 13;
+            btnCloseFrame.Opacity = 0.5f;
+            btnCloseFrame.WidthRequest = ButtonOcenaSize;
+            btnCloseFrame.HeightRequest = ButtonOcenaSize;
+            btnCloseFrame.Padding = new Thickness(0, 0, 0, 5);
+            btnCloseFrame.Clicked += BtnCloseFrame_Clicked;
+
+            Grid.SetColumn(btnCloseFrame, 2);
+            g1.Children.Add(btnCloseFrame);
+
+
             #endregion
             c.Children.Add(g1);
             #region Grid 2
@@ -98,16 +130,30 @@ namespace SredniaOcen
             this.srednia = srednia;
         }
 
+        /// <summary>
+        /// Uruchamia metodę w klasie <c>Srednia</c>
+        /// </summary>
+        private void BtnCloseFrame_Clicked(object sender, EventArgs e)
+        {
+            srednia.CloseFrame(this);
+        }
 
-
+        /// <summary>
+        /// Obsługuje potwierdzenie (np. guzik enter) i wywołuje metodę dodającą nową ocenę
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void EntryNowaOcena_Completed(object sender, EventArgs e)
         {
             BtnDodajNowaOcene_Clicked(btnDodajNowaOcene, e);
         }
 
+        /// <summary>
+        /// Dodaje nową ocenę do listy w formie guzika, który można kliknąć i usunąć. Aktualizuje średnią o nową ocenę
+        /// </summary>
         private void BtnDodajNowaOcene_Clicked(object sender, EventArgs e)
         {
-            if (entryNowaOcena.Text != null && double.TryParse(entryNowaOcena.Text.Replace(',', '.'), out double d))
+            if (entryNowaOcena.Text != null && double.TryParse(entryNowaOcena.Text, out double d))
             {
                 entryNowaOcena.Text = "";
                 Button b = GetBtnOcena(d);
@@ -117,18 +163,27 @@ namespace SredniaOcen
             }
         }
 
+        /// <summary>
+        /// Tworzy usuwalny guzik
+        /// </summary>
+        /// <param name="ocena">Wartość oceny, którą będzie miał guzik</param>
+        /// <returns>Guzik, który po naciśnięciu się usuwa z listy i aktualizuje średnią</returns>
         private Button GetBtnOcena(double ocena)
         {
             Button btnocena = new Button()
             {
                 Margin = new Thickness(5, 2, 5, 2),
-                WidthRequest = 37,
-                HeightRequest = 37,
+                WidthRequest = ButtonOcenaSize,
+                HeightRequest =ButtonOcenaSize,
                 Text = ocena.ToString()
             };
             btnocena.Clicked += Btnocena_Clicked;
             return btnocena;
         }
+
+        /// <summary>
+        /// Kliknięcie guzika z wartością oceny. Usuwa go z listy ocen i aktualizuje średnią
+        /// </summary>
         private void Btnocena_Clicked(object sender, EventArgs e)
         {
             btnOceny.Remove((Button)sender);
