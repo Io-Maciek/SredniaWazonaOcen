@@ -82,7 +82,6 @@ namespace SredniaOcen
 
 
 
-
             Frame f = new Frame();
             f.Content = c;
             f.BackgroundColor = bg;
@@ -96,8 +95,7 @@ namespace SredniaOcen
 
         private void BtnDodajNowaOcene_Clicked(object sender, EventArgs e)
         {
-            double d;
-            if (double.TryParse(entryNowaOcena.Text, out d))
+            if (double.TryParse(entryNowaOcena.Text, out double d))
             {
                 entryNowaOcena.Text = "";
                 Button b = GetBtnOcena(d);

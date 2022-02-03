@@ -5,7 +5,7 @@
 
     <StackLayout>
         <ScrollView>
-            <FlexLayout x:Name="mainLayout"  Wrap="Wrap" JustifyContent="SpaceBetween">
+            <FlexLayout x:Name="mainLayout"  Wrap="Wrap" JustifyContent="SpaceEvenly">
                 <!--<Frame x:Name="frameWagaModel" IsVisible="false" BackgroundColor="#6420AA" WidthRequest="250" HeightRequest="250" CornerRadius="20" Margin="5">
                     <StackLayout>
                         <Grid Margin="0,0,0,20" ColumnDefinitions="*,Auto">
