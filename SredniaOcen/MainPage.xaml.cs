@@ -19,11 +19,12 @@ namespace SredniaOcen
             Srednia s = new Srednia(lblSrednia);
 
             s.AddNewWaga(Color.FromHex("#642000"), 1);
-            s.AddNewWaga(Color.FromHex("#642022"), 2);
             s.AddNewWaga(Color.FromHex("#642044"), 3);
-            s.AddNewWaga(Color.FromHex("#642066"), 4);
             s.AddNewWaga(Color.FromHex("#642078"), 5);
             s.AddNewWaga(Color.FromHex("#6420AA"), 6);
+            s.AddNewWaga(Color.FromHex("#642022"), 2);
+            s.AddNewWaga(Color.FromHex("#642066"), 4);
+
         }
 
 

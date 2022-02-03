@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Text;
 using Xamarin.Forms;
 
@@ -8,7 +9,7 @@ namespace SredniaOcen
 {
     public class Srednia
     {
-
+        public int index = 0;
         List<FrameWaga> frameWagi = new List<FrameWaga>();
 
         Label lblSrednia;
@@ -22,6 +23,13 @@ namespace SredniaOcen
         public void AddNewWaga(Color bg, double waga)
         {
             frameWagi.Add(new FrameWaga(this, bg, waga));
+            frameWagi.Sort();
+
+            MainPage.main.Children.Clear();
+            foreach (var item in frameWagi)
+            {
+                MainPage.main.Children.Add(item.frame);
+            }
         }
 
 
