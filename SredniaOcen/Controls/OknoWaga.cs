@@ -3,29 +3,72 @@ using System.Collections.Generic;
 using System.Text;
 using Xamarin.Forms;
 
-namespace SredniaOcen
+namespace SredniaOcen.Controls
 {
-    [Obsolete(message:"Proszę użyj klasy 'OknoWaga'")]
-    internal class FrameWaga : IComparable<FrameWaga>
+    public class OknoWaga : Frame,IComparable<OknoWaga>
     {
         public List<Button> btnOceny = new List<Button>();
         FlexLayout MiejsceNaOceny;
-        Entry entryNowaOcena;
+        Entry EntryNowaOcena;
         Button btnDodajNowaOcene;
 
-        public double Waga;
+        double Waga;
 
-        Srednia srednia;
-
-        public Frame frame;
+        public double Text
+        {
+            get
+            {
+                return Waga;
+            }
+            set
+            {
+                Waga = value;
+                lblWagaWartosc.Text = value.ToString();
+            }
+        }
 
         readonly static int ButtonOcenaSize;
 
-        
-
-        static FrameWaga()
+        public event EventHandler ClickedAdd
         {
-            if(Device.RuntimePlatform == Device.Android)
+            add
+            {
+                EntryNowaOcena.Completed += value;
+                btnDodajNowaOcene.Clicked += value;
+            }
+            remove
+            {
+                EntryNowaOcena.Completed -= value;
+                btnDodajNowaOcene.Clicked -= value;
+            }
+        }
+
+        public readonly Button btnCloseFrame;
+
+        public event EventHandler ClickedClose
+        {
+            add
+            {
+                btnCloseFrame.Clicked += value;
+
+            }
+            remove
+            {
+                btnCloseFrame.Clicked -= value;
+
+            }
+        }
+
+        public Action AktualizacjaSredniej;
+
+
+
+        Label lblWagaWartosc;
+
+
+        static OknoWaga()
+        {
+            if (Device.RuntimePlatform == Device.Android)
             {
                 ButtonOcenaSize = 45;
             }
@@ -35,8 +78,14 @@ namespace SredniaOcen
             }
         }
 
-        public FrameWaga(Srednia srednia, Color bg, double waga) : base()
+        public OknoWaga() : this(Color.FromHex("#3674c9"), 0) { }
+
+        public OknoWaga(double waga) : this(Color.FromHex("#3674c9"), waga) { }
+
+
+        public OknoWaga(Color bg, double waga)
         {
+            
             Waga = waga;
             StackLayout c = new StackLayout();
             #region Grid 1
@@ -50,7 +99,7 @@ namespace SredniaOcen
             g1.ColumnDefinitions = two;
 
             Label lblWaga = new Label();
-            Label lblWagaWartosc = new Label();
+            lblWagaWartosc = new Label();
             lblWaga.Text = "Waga";
             lblWaga.FontSize = 19;
             Grid.SetColumn(lblWaga, 0);
@@ -62,7 +111,7 @@ namespace SredniaOcen
             g1.Children.Add(lblWaga);
             g1.Children.Add(lblWagaWartosc);
 
-            Button btnCloseFrame = new Button();
+            btnCloseFrame = new Button();
             btnCloseFrame.Text = "x";
             btnCloseFrame.BackgroundColor = Color.Red;
             btnCloseFrame.FontSize = 13;
@@ -70,17 +119,15 @@ namespace SredniaOcen
             btnCloseFrame.WidthRequest = ButtonOcenaSize;
             btnCloseFrame.HeightRequest = ButtonOcenaSize;
             btnCloseFrame.Padding = new Thickness(0, 0, 0, 5);
-            btnCloseFrame.Clicked += BtnCloseFrame_Clicked;
 
             Grid.SetColumn(btnCloseFrame, 2);
             g1.Children.Add(btnCloseFrame);
-
 
             #endregion
             c.Children.Add(g1);
             #region Grid 2
             Grid g2 = new Grid();
-
+            
             ColumnDefinitionCollection three = new ColumnDefinitionCollection();
             three.Add(new ColumnDefinition() { Width = GridLength.Star });
             three.Add(new ColumnDefinition() { Width = GridLength.Auto });
@@ -91,19 +138,19 @@ namespace SredniaOcen
             lblOceny.Text = "Oceny";
             lblOceny.FontSize = 19;
 
-            entryNowaOcena = new Entry();
-            entryNowaOcena.Completed += EntryNowaOcena_Completed;
+            EntryNowaOcena = new Entry();
+            EntryNowaOcena.Completed += EntryNowaOcena_Completed;
             //entryNowaOcena.FontSize = 19;
-            entryNowaOcena.Keyboard = Keyboard.Numeric;
-            entryNowaOcena.Placeholder = "Ocena";
-            Grid.SetColumn(entryNowaOcena, 1);
+            EntryNowaOcena.Keyboard = Keyboard.Numeric;
+            EntryNowaOcena.Placeholder = "Ocena";
+            Grid.SetColumn(EntryNowaOcena, 1);
 
             btnDodajNowaOcene = new Button();
             btnDodajNowaOcene.Text = "Dodaj";
             btnDodajNowaOcene.Clicked += BtnDodajNowaOcene_Clicked;
             Grid.SetColumn(btnDodajNowaOcene, 2);
             g2.Children.Add(lblOceny);
-            g2.Children.Add(entryNowaOcena);
+            g2.Children.Add(EntryNowaOcena);
             g2.Children.Add(btnDodajNowaOcene);
 
             #endregion
@@ -118,34 +165,20 @@ namespace SredniaOcen
             #endregion
             c.Children.Add(scrollView);
 
-
-
-            Frame f = new Frame();
-            f.Content = c;
-            f.BackgroundColor = bg;
-            f.WidthRequest = 250;
-            f.HeightRequest = 250;
-            f.CornerRadius = 20;
-            f.Margin = new Thickness(5);
-            //MainPage.main.Children.Add(f);
-            frame = f;
-            this.srednia = srednia;
             
+            Content = c;
+            BackgroundColor = bg;
+            WidthRequest = 250;
+            HeightRequest = 250;
+            CornerRadius = 20;
+            Margin = new Thickness(5);
         }
 
-        /// <summary>
-        /// Uruchamia metodę w klasie <c>Srednia</c>
-        /// </summary>
-        private void BtnCloseFrame_Clicked(object sender, EventArgs e)
-        {
-            //srednia.CloseFrame(this);
-        }
+
 
         /// <summary>
         /// Obsługuje potwierdzenie (np. guzik enter) i wywołuje metodę dodającą nową ocenę
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void EntryNowaOcena_Completed(object sender, EventArgs e)
         {
             BtnDodajNowaOcene_Clicked(btnDodajNowaOcene, e);
@@ -156,13 +189,12 @@ namespace SredniaOcen
         /// </summary>
         private void BtnDodajNowaOcene_Clicked(object sender, EventArgs e)
         {
-            if (entryNowaOcena.Text != null && double.TryParse(entryNowaOcena.Text, out double d))
+            if (EntryNowaOcena.Text != null && double.TryParse(EntryNowaOcena.Text, out double d))
             {
-                entryNowaOcena.Text = "";
+                EntryNowaOcena.Text = "";
                 Button b = GetBtnOcena(d);
                 btnOceny.Add(b);
                 MiejsceNaOceny.Children.Add(b);
-                srednia.UpdateSrednia();
             }
         }
 
@@ -177,10 +209,11 @@ namespace SredniaOcen
             {
                 Margin = new Thickness(5, 2, 5, 2),
                 WidthRequest = ButtonOcenaSize,
-                HeightRequest =ButtonOcenaSize,
+                HeightRequest = ButtonOcenaSize,
                 Text = ocena.ToString()
             };
             btnocena.Clicked += Btnocena_Clicked;
+
             return btnocena;
         }
 
@@ -191,10 +224,10 @@ namespace SredniaOcen
         {
             btnOceny.Remove((Button)sender);
             MiejsceNaOceny.Children.Remove((Button)sender);
-            srednia.UpdateSrednia();
+            AktualizacjaSredniej();
         }
 
-        public int CompareTo(FrameWaga other)
+        public int CompareTo(OknoWaga other)
         {
             return Waga.CompareTo(other.Waga);
         }

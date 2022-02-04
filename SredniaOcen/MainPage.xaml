@@ -1,11 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="SredniaOcen.MainPage">
+             x:Class="SredniaOcen.MainPage"
+             xmlns:custom="clr-namespace:SredniaOcen.Controls">
 
     <StackLayout>
         <ScrollView>
             <FlexLayout x:Name="mainLayout"  Wrap="Wrap" JustifyContent="SpaceEvenly">
+                <!--<custom:OknoWaga Text="3"></custom:OknoWaga>-->
                 <!--<Frame x:Name="frameWagaModel" IsVisible="false" BackgroundColor="#6420AA" WidthRequest="250" HeightRequest="250" CornerRadius="20" Margin="5">
                     <StackLayout>
                         <Grid Margin="0,0,0,20" ColumnDefinitions="*,Auto">
@@ -26,7 +28,7 @@
                 </Frame>-->
             </FlexLayout>
         </ScrollView>
-        
+
         
         <Frame Margin="0,-6,0,0" CornerRadius="0" VerticalOptions="EndAndExpand" BackgroundColor="#1E88E5" >
             <FlexLayout JustifyContent="Center">

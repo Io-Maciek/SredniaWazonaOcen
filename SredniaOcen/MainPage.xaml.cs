@@ -18,9 +18,11 @@ namespace SredniaOcen
             main = mainLayout;
             Srednia s = new Srednia(lblSrednia);
 
+
             /*
              * TODO funkcja: dodawanie nowych okien z wagą
              */
+
 
             s.AddNewWaga(3);
             s.AddNewWaga(5);

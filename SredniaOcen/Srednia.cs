@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SredniaOcen.Controls;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -10,7 +11,7 @@ namespace SredniaOcen
     public class Srednia
     {
         public int index = 0;
-        List<FrameWaga> frameWagi = new List<FrameWaga>();
+        List<OknoWaga> frameWagi = new List<OknoWaga>();
 
         Label lblSrednia;
 
@@ -27,17 +28,33 @@ namespace SredniaOcen
         public void AddNewWaga(double waga)
         {
             // jeśli nie istnieje już taka waga
-            if (frameWagi.Where(n => n.Waga == waga).Count() == 0)
+            if (frameWagi.Where(n => n.Text == waga).Count() == 0)
             {
-                frameWagi.Add(new FrameWaga(this, Color.FromHex("#3674c9"), waga));
+                OknoWaga temp = new OknoWaga(Color.FromHex("#3674c9"), waga);
+                temp.ClickedClose += CloseFrame;
+                temp.ClickedAdd += ClickedAddOcene;
+                temp.AktualizacjaSredniej = UpdateSrednia;
+
+                frameWagi.Add(temp);
                 frameWagi.Sort();
 
                 MainPage.main.Children.Clear();
                 foreach (var item in frameWagi)
                 {
-                    MainPage.main.Children.Add(item.frame);
+                    MainPage.main.Children.Add(item);
                 }
             }
+        }
+
+
+        /// <summary>
+        /// Wywoływana po naciśnięciu guzika dodania nowej oceny. Aktualizuje średnią
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ClickedAddOcene(object sender, EventArgs e)
+        {
+            UpdateSrednia();
         }
 
 
@@ -51,10 +68,10 @@ namespace SredniaOcen
             foreach (var item in frameWagi)
             {
 
-                    lacznieWagi += item.Waga*item.btnOceny.Count;
+                    lacznieWagi += item.Text*item.btnOceny.Count;
                     for (int i = 0; i < item.btnOceny.Count; i++)
                     {
-                        suma += double.Parse(item.btnOceny[i].Text) * item.Waga;
+                        suma += double.Parse(item.btnOceny[i].Text) * item.Text;
                     }
                 
             }
@@ -69,16 +86,18 @@ namespace SredniaOcen
         /// <summary>
         /// Wywoływana po naciśnięciu guzika wyłączenia okna z wagą. Usuwa z listy i aktualizuje średnią
         /// </summary>
-        /// <param name="frameWaga"></param>
-        internal void CloseFrame(FrameWaga frameWaga)
+        internal void CloseFrame(object sender,EventArgs e)
         {
-            frameWagi.Remove(frameWaga);
-            frameWagi.Sort();
+            Grid tGrid = (Grid)((Button)sender).Parent;
+            StackLayout tStack = (StackLayout)tGrid.Parent;
+            OknoWaga t = (OknoWaga)tStack.Parent;
+
+            frameWagi.Remove(t);
 
             MainPage.main.Children.Clear();
             foreach (var item in frameWagi)
             {
-                MainPage.main.Children.Add(item.frame);
+                MainPage.main.Children.Add(item);
             }
             UpdateSrednia();
         }
