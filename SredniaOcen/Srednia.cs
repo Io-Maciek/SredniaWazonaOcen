@@ -21,16 +21,12 @@ namespace SredniaOcen
             lblSrednia = srednia;
         }
 
-
-        /// <summary>
-        /// Dodawanie nowego okna z wagą (z sortowaniem według wagi). Nie pozwala na dodanie dwóch takich samych wartości wag
-        /// </summary>
-        public void AddNewWaga(double waga)
+        public void AddNewWaga(Color frameColor, double waga)
         {
             // jeśli nie istnieje już taka waga
             if (frameWagi.Where(n => n.Text == waga).Count() == 0)
             {
-                OknoWaga temp = new OknoWaga(Color.FromHex("#3674c9"), waga);
+                OknoWaga temp = new OknoWaga(frameColor, waga);
                 temp.ClickedClose += CloseFrame;
                 temp.ClickedAdd += ClickedAddOcene;
                 temp.AktualizacjaSredniej = UpdateSrednia;
@@ -44,6 +40,15 @@ namespace SredniaOcen
                     MainPage.main.Children.Add(item);
                 }
             }
+        }
+
+
+        /// <summary>
+        /// Dodawanie nowego okna z wagą (z sortowaniem według wagi). Nie pozwala na dodanie dwóch takich samych wartości wag
+        /// </summary>
+        public void AddNewWaga(double waga)
+        {
+            AddNewWaga(Color.FromHex("#3674c9"), waga);
         }
 
 

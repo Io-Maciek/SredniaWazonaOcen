@@ -24,12 +24,11 @@ namespace SredniaOcen
              */
 
 
-            s.AddNewWaga(3);
-            s.AddNewWaga(5);
-            s.AddNewWaga(6);
-            s.AddNewWaga(2);
-            s.AddNewWaga(4);
-            s.AddNewWaga(1);
+
+            for (int i = 0; i < 6; i++)
+            {
+                s.AddNewWaga(Color.FromHex("#36F0"+i+i),i + 1);
+            }
 
         }
 

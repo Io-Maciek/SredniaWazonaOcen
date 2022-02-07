@@ -227,6 +227,9 @@ namespace SredniaOcen.Controls
             AktualizacjaSredniej();
         }
 
+
+        // co to znaczy ' in T ' 
+
         public int CompareTo(OknoWaga other)
         {
             return Waga.CompareTo(other.Waga);
